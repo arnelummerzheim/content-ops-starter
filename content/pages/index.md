@@ -38,7 +38,7 @@ sections:
       type: ImageBlock
       styles:
         self:
-          borderRadius: medium
+          borderRadius: x-large
           borderWidth: 0
     badge:
       label: This is a badge
