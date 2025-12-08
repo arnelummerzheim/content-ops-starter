@@ -45,11 +45,28 @@ export function getStaticPaths() {
     return { paths, fallback: false };
 }
 
+function replaceUndefinedWithNull(obj) {
+    if (obj === null || obj === undefined) {
+        return null;
+    }
+    if (Array.isArray(obj)) {
+        return obj.map(replaceUndefinedWithNull);
+    }
+    if (typeof obj === 'object' && obj.constructor === Object) {
+        const result = {};
+        for (const [key, value] of Object.entries(obj)) {
+            result[key] = replaceUndefinedWithNull(value);
+        }
+        return result;
+    }
+    return obj;
+}
+
 export async function getStaticProps({ params }) {
     const data = allContent();
     const urlPath = '/' + (params.slug || []).join('/');
     const props = await resolveStaticProps(urlPath, data);
-    return { props };
+    return { props: replaceUndefinedWithNull(props) };
 }
 
 export default Page;

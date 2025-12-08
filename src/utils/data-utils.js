@@ -62,7 +62,7 @@ export function resolveReferences(object, fieldPaths, objects, debugContext = { 
         });
         return {
             ...value,
-            [fieldName]: result
+            [fieldName]: result ?? null
         };
     };
 
